@@ -3,7 +3,7 @@ from random import randint
 from random import shuffle
 import numpy as np
 '''
-Report
+Report (Question 6)
 What I am seeing in the outputs is that of all the sorts, mergesort is
 the slowest algorithm and python sort is the fastest algorithm. This is
 evident as when the trials were conducted, mergesort took the longest
@@ -138,130 +138,212 @@ def merge(list1, list2, mylist):
             f1 += 1
 
 #evaluateall function definition (Question 4)
+#Takes in a size of list and how many duplicates are in the list
 def evaluateall(n, k):
+    #Instantiating the empty list
     numList = []
+
+    # From the 0 position to the n-k position of the list, add a random number
     for fill in range(0, n-k):
         numList.append(randint(0, n-k-1))
+
+    # From the n-k-1 position to the end of the list, add a duplicate of a number in the list
     for add in range(n-k-1, n):
         numList.append(numList[randint(0, n-k-1)])
+
+    # Initializations of timers
     avgHeapTime = 0
     avgMergeTime = 0
     avgQuickTime = 0
     avgPyTime = 0
-    for copy in range(0, 10):
+
+    # Conducting 10 rounds of sorting
+    for round in range(0, 10):
+        # Making a copy of the list and shuffling it
         ListCopy = numList.copy()
         shuffle(ListCopy)
+
+        # Creating a copy of the shuffled list, running heapsort on the list, and timing it.
         heapCopy = ListCopy.copy()
         heapStartTime = time.time()
         heapSort(heapCopy)
         heapEndTime = time.time()
         avgHeapTime += heapEndTime - heapStartTime
+
+        # Creating a copy of the shuffled list, running mergesort on the list, and timing it.
         mergeCopy = ListCopy.copy()
         mergeStartTime = time.time()
         mergesort(mergeCopy)
         mergeEndTime = time.time()
         avgMergeTime += mergeEndTime - mergeStartTime
+
+        # Creating a copy of the shuffled list, running quicksort on the list, and timing it.
         quickCopy = ListCopy.copy()
         quickStartTime = time.time()
         shuffle_and_quicksort(quickCopy)
         quickEndTime = time.time()
         avgQuickTime += quickEndTime - quickStartTime
+
+        # Creating a copy of the shuffled list, running the built in python sort of the list, and timing it.
         pySortCopy = ListCopy.copy()
         pyStartTime = time.time()
         pySortCopy.sort()
         pyEndTime = time.time()
         avgPyTime += pyEndTime - pyStartTime
+
+    # Dividing all of the times by 10, since we conducted 10 rounds of sorting
+    # This is so we get the average time of each sort
     avgHeapTime /= 10
     avgMergeTime /= 10
     avgQuickTime /= 10
     avgPyTime /= 10
+
+    # Formatting times to 5 decimal places 
     formattedHeapTime = '{:.5f}'.format(avgHeapTime)
     formattedMergeTime = '{:.5f}'.format(avgMergeTime)
     formattedQuickTime = '{:.5f}'.format(avgQuickTime)
     formattedPyTime = '{:.5f}'.format(avgPyTime)
+
+    # Outputting the times. 
     print(formattedHeapTime + ' heapsort ' + str(n) + ' ' + str(k))
     print(formattedMergeTime + ' mergesort ' + str(n) + ' ' + str(k))
     print(formattedQuickTime + ' quicksort ' + str(n) + ' ' + str(k))
     print(formattedPyTime + ' python ' + str(n) + ' ' + str(k))
     print()
 
+#evaluatepartical function (Question 5)
+#Takes in a size of list and how many duplicates are in the list
 def evaluatepartial(n, k):
+    # Instantiating the empty list
     numList = []
+    
+     # From the 0 position to the n-k position of the list, add a random number
     for fill in range(0, n-k):
         numList.append(randint(0, n-k-1))
+
+    # From the n-k-1 position to the end of the list, add a duplicate of a number in the list
     for add in range(n-k-1, n):
         numList.append(numList[randint(0, n-k-1)])
+    
+    # Sorting the list
     numList.sort()
+
+    # Randomly conducting swaps n/20 times in order to generate a partially sorted list 
+    # In accordance to question 5. 
     for randSelect in range(0, n//20):
         swapLocA = randint(0, n-1)
         swapLocB = randint(0, n-1)
         temp = numList[swapLocB]
         numList[swapLocB] = numList[swapLocA]
         numList[swapLocA] = temp
+
+    # Starting the timers. 
     avgHeapTime = 0
     avgMergeTime = 0
     avgQuickTime = 0
     avgPyTime = 0
-    for copy in range(0, 10):
+
+    # Conducting 10 rounds of sorts
+    for round in range(0, 10):
+        # Making a copy of the list and shuffling it
         ListCopy = numList.copy()
         shuffle(ListCopy)
+
+        # Creating a copy of the shuffled list, running heapsort on the list, and timing it.
         heapCopy = ListCopy.copy()
         heapStartTime = time.time()
         heapSort(heapCopy)
         heapEndTime = time.time()
         avgHeapTime += heapEndTime - heapStartTime
+
+        # Creating a copy of the shuffled list, running mergesort on the list, and timing it.
         mergeCopy = ListCopy.copy()
         mergeStartTime = time.time()
         mergesort(mergeCopy)
         mergeEndTime = time.time()
         avgMergeTime += mergeEndTime - mergeStartTime
+
+        # Creating a copy of the shuffled list, running quicksort on the list, and timing it.
         quickCopy = ListCopy.copy()
         quickStartTime = time.time()
         shuffle_and_quicksort(quickCopy)
         quickEndTime = time.time()
         avgQuickTime += quickEndTime - quickStartTime
+
+        # Creating a copy of the shuffled list, running the built in python sort of the list, and timing it.
         pySortCopy = ListCopy.copy()
         pyStartTime = time.time()
         pySortCopy.sort()
         pyEndTime = time.time()
         avgPyTime += pyEndTime - pyStartTime
+
+    # Dividing all of the times by 10, since we conducted 10 rounds of sorting
+    # This is so we get the average time of each sort
     avgHeapTime /= 10
     avgMergeTime /= 10
     avgQuickTime /= 10
     avgPyTime /= 10
+
+    # Formatting times to 5 decimal places 
     formattedHeapTime = '{:.5f}'.format(avgHeapTime)
     formattedMergeTime = '{:.5f}'.format(avgMergeTime)
     formattedQuickTime = '{:.5f}'.format(avgQuickTime)
     formattedPyTime = '{:.5f}'.format(avgPyTime)
+
+    # Outputting the times. 
     print(formattedHeapTime + ' heapsort ' + str(n) + ' ' + str(k) + ' p')
     print(formattedMergeTime + ' mergesort ' + str(n) + ' ' + str(k) + ' p')
     print(formattedQuickTime + ' quicksort ' + str(n) + ' ' + str(k) + ' p')
     print(formattedPyTime + ' python ' + str(n) + ' ' + str(k) + ' p')
     print()
 
+# Main evaluating function 
 def evaluate():
+    # Trial with 100 integers and no duplicates
     evaluateall(100, 0)
     evaluatepartial(100, 0)
+
+    # Trial with 1000 integers and no duplicates
     evaluateall(1000, 0)
     evaluatepartial(1000, 0)
+    
+    # Trial with 10000 integers and no duplicates
     evaluateall(10000, 0)
     evaluatepartial(10000, 0)
+
+    # Trial with 100000 integers and no duplicates
     evaluateall(100000, 0)
     evaluatepartial(100000, 0)
+
+    # Trial with 100 integers with 20 of them being duplicates
     evaluateall(100, 20)
     evaluatepartial(100, 20)
+
+    # Trial with 1000 integers with 200 of them being duplicates
     evaluateall(1000, 200)
     evaluatepartial(1000, 200)
+
+    # Trial with 10000 integers with 2000 of them being duplicates
     evaluateall(10000, 2000)
     evaluatepartial(10000, 2000)
+
+    # Trial with 100000 integers with 20000 of them being duplicates
     evaluateall(100000, 20000)
     evaluatepartial(100000, 20000)
+
+    # Trial with 100 integers with 70 of them being duplicates
     evaluateall(100, 70)
     evaluatepartial(100, 70)
+
+    # Trial with 1000 integers with 700 of them being duplicates
     evaluateall(1000, 700)
     evaluatepartial(1000, 700)
+
+    # Trial with 10000 integers with 7000 of them being duplicates
     evaluateall(10000, 7000)
     evaluatepartial(10000, 7000)
+
+    # Trial with 100000 integers with 70000 of them being duplicates
     evaluateall(100000, 70000)
     evaluatepartial(100000, 7000)
 
